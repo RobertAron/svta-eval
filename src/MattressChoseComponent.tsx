@@ -43,7 +43,7 @@ function preLoadImage(imageUrl: string) {
   img.src = imageUrl
 }
 
-Object.values(matresses).map(({name})=>name).forEach(preLoadImage)
+Object.values(matresses).map(({image})=>image).forEach(preLoadImage)
 
 const useStyles = makeStyles((theme) => ({
   matress: {
