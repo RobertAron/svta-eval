@@ -37,6 +37,14 @@ const matresses: { [key: string]: matress } = {
   }
 }
 
+// load the image and cache it so that there's no issues when it first gets mounted
+function preLoadImage(imageUrl: string) {
+  const img = new Image()
+  img.src = imageUrl
+}
+
+Object.values(matresses).map(({name})=>name).forEach(preLoadImage)
+
 const useStyles = makeStyles((theme) => ({
   matress: {
     display: 'grid',
