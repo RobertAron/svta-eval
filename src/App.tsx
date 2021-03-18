@@ -25,9 +25,9 @@ function App() {
             <Typography variant="h4" component='h1' color='primary'>
               saatva
             </Typography>
-            <IconButton edge="start" color="inherit" aria-label="menu">
-              <Badge badgeContent={items.length} color="primary" invisible={items.length===0}>
-                <ShoppingCartOutlined color='primary'/>
+            <IconButton edge="start" color="inherit" aria-label="go-to-cart">
+              <Badge badgeContent={items.length} color="primary" aria-label={`${items.length} items in cart`}>
+                <ShoppingCartOutlined color='primary' aria-label="cart"/>
               </Badge>
             </IconButton>
           </Toolbar>

@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { Button,  makeStyles, Typography } from '@material-ui/core'
+import { Button, makeStyles, Typography } from '@material-ui/core'
+import { Hotel } from '@material-ui/icons';
 import classicMatress from './images/classic.jpg'
 import loomMatress from './images/loom-carousel.jpg'
 import zenMatress from './images/zen-carousel.jpg'
-import { ToggleButton, ToggleButtonGroup } from '@material-ui/lab';
+import { ToggleButton, ToggleButtonGroup, Rating } from '@material-ui/lab';
 import { AnimatePresence, motion, Variants } from 'framer-motion';
 import { useCartContext } from './CartContext';
 import clsx from 'clsx';
@@ -44,9 +45,9 @@ const useStyles = makeStyles((theme) => ({
   },
   matressSelectionContainer: {
     display: 'grid',
-    gridAutoFlow:'row',
-    gridAutoColumns:'1fr',
-    gridAutoRows:'1fr',
+    gridAutoFlow: 'row',
+    gridAutoColumns: '1fr',
+    gridAutoRows: '1fr',
     gap: theme.spacing(4)
   },
   matressDetails: {
@@ -59,10 +60,10 @@ const useStyles = makeStyles((theme) => ({
     '& > .MuiToggleButton-root': {
       border: '1px solid #d2d2d2',
       flexGrow: 1,
-      backgroundColor:'#FFF',
-      '&.Mui-selected':{
-        backgroundColor:'#a6a19a',
-        color:'#FFF'
+      backgroundColor: '#FFF',
+      '&.Mui-selected': {
+        backgroundColor: '#a6a19a',
+        color: '#FFF'
       },
       '& > span': {
         whiteSpace: 'nowrap'
@@ -70,41 +71,41 @@ const useStyles = makeStyles((theme) => ({
     }
   },
   noTextTransform: {
-    textTransform:'none'
+    textTransform: 'none'
   },
   matressImage: {
     display: 'block',
     objectFit: 'cover',
-    height:0,
-    minHeight:'100%',
-    width:'100%'
+    height: 0,
+    minHeight: '100%',
+    width: '100%'
   },
-  imageHolder:{
-    display:'grid',
-    gridTemplateColumns:'1fr',
-    gridTemplateRows:'1fr',
-    overflow:'hidden',
+  imageHolder: {
+    display: 'grid',
+    gridTemplateColumns: '1fr',
+    gridTemplateRows: '1fr',
+    overflow: 'hidden',
     '& > *': {
-      gridColumn:' 1 / 2',
+      gridColumn: ' 1 / 2',
       gridRow: '1 / 2'
     }
   },
-  minHeight:{
-    height:'min-content'
+  minHeight: {
+    height: 'min-content'
   },
-  "@media (max-width: 720px)":{
-    matress:{
-      gridAutoFlow:'column',
+  "@media (max-width: 720px)": {
+    matress: {
+      gridAutoFlow: 'column',
       gridTemplateColumns: 'unset',
       gridTemplateRows: '1fr 2fr'
     },
-    matressSelectionContainer:{
+    matressSelectionContainer: {
       gap: theme.spacing(1)
     }
   }
 }))
 
-const variants : Variants = {
+const variants: Variants = {
   enter: (direction: number) => {
     return {
       x: direction > 0 ? 1000 : -1000,
@@ -130,15 +131,15 @@ function MattressChooseComponent() {
   const classes = useStyles()
   const { addItem } = useCartContext()
   const [selectedMatress, setSelectedMatress] = useState<string>(Object.keys(matresses)[0])
-  const [[oldItemIndex,newItemIndex], setItemIndex] = useState<[number,number]>(()=>[0,0])
-  function updateMatress(newKey:string|null){
-    if(newKey){
+  const [[oldItemIndex, newItemIndex], setItemIndex] = useState<[number, number]>(() => [0, 0])
+  function updateMatress(newKey: string | null) {
+    if (newKey) {
       setSelectedMatress(newKey)
-      const newNewItemIndex = Object.keys(matresses).findIndex((item)=>newKey===item)
-      setItemIndex([newItemIndex,newNewItemIndex])
+      const newNewItemIndex = Object.keys(matresses).findIndex((item) => newKey === item)
+      setItemIndex([newItemIndex, newNewItemIndex])
     }
   }
-  const direction = newItemIndex-oldItemIndex
+  const direction = newItemIndex - oldItemIndex
   return (
     <div className={classes.matress}>
       <div className={classes.imageHolder}>
@@ -150,7 +151,7 @@ function MattressChooseComponent() {
             initial="enter"
             animate="center"
             exit="exit"
-            transition={{stiffness: 100 }}
+            transition={{ stiffness: 100 }}
             variants={variants}
             custom={direction}
           />
@@ -171,20 +172,29 @@ function MattressChooseComponent() {
               <ToggleButton key={key} value={key} className={classes.noTextTransform}>
                 {value.name}
               </ToggleButton>
-            )} 
+            )}
           </ToggleButtonGroup>
         </div>
         <div className={classes.matressDetails}>
-          <Typography variant='subtitle2' id='matress-picker'>{matresses[selectedMatress].name} Matress</Typography>
+          <div>
+            <Typography variant='subtitle2' id='matress-picker'>{matresses[selectedMatress].name} Matress</Typography>
+            <Rating
+              name="rating"
+              aria-label='rating'
+              value={matresses[selectedMatress].reviewRating}
+              precision={0.1}
+              icon={<Hotel fontSize="inherit" />}
+            />
+          </div>
           <Typography variant='body2' id='matress-picker'>${matresses[selectedMatress].price.toLocaleString()}</Typography>
         </div>
         <Button
           color='secondary'
           variant='contained'
-          onClick={()=>addItem(matresses[selectedMatress])}
+          onClick={() => addItem(matresses[selectedMatress])}
           className={clsx(classes.minHeight, classes.noTextTransform)}
         >
-            Add to Cart
+          Add to Cart
         </Button>
       </div>
     </div>
