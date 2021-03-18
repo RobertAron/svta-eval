@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { Button, ButtonGroup, makeStyles, Typography } from '@material-ui/core'
+import { Button,  makeStyles, Typography } from '@material-ui/core'
 import classicMatress from './images/classic.jpg'
 import loomMatress from './images/loom-carousel.jpg'
 import zenMatress from './images/zen-carousel.jpg'
 import { ToggleButton, ToggleButtonGroup } from '@material-ui/lab';
-import { AnimatePresence, AnimationProps, motion, Variants } from 'framer-motion';
+import { AnimatePresence, motion, Variants } from 'framer-motion';
 import { useCartContext } from './CartContext';
 import clsx from 'clsx';
 
